@@ -58,12 +58,8 @@ pkg_check_modules(YAML_CPP REQUIRED yaml-cpp)
 if (${YAML_CPP_VERSION} VERSION_GREATER 0.4)
     add_definitions(-DHAVE_YAMLCPP_0_5)
 endif()
-##
-##catkin_package(CATKIN_DEPENDS dynamic_reconfigure)
-##include_directories(
-##  ${catkin_INCLUDE_DIRS}
-##)
-###
+
+
 
 add_executable(laser_lines src/laser_lines.cpp)
 target_link_libraries(laser_lines ${Boost_LIBRARIES} ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} ${PCL_LIBRARIES})
@@ -72,4 +68,8 @@ set_property(TARGET laser_lines PROPERTY COMPILE_DEFINITION -DBOOST_SIGNALS_NO_D
 add_executable(landmark_frame src/landmark_frame.cpp)
 target_link_libraries(landmark_frame ${Boost_LIBRARIES} ${catkin_LIBRARIES} ${Eigen3_LIBRARIES} ${PCL_LIBRARIES}
         ${YAML_CPP_LIBRARIES})
-#target_link_libraries(landmark_frame ${YAML_CPP_LIBRARIES} ${EIGEN_LIBRARIES})
+
+# Deps to the messages
+add_dependencies(laser_lines ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(landmark_frame ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
