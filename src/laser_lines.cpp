@@ -219,6 +219,7 @@ public:
         search->setInputCloud(in_cloud);
         seg.setSamplesMaxDist(cfg_segm_sample_max_dist_, search);
 #endif
+        pcl::console::setVerbosityLevel(pcl::console::L_ALWAYS);
         seg.setInputCloud(in_cloud);
         seg.segment(*inliers, *coeff);
         if (inliers->indices.size() == 0) {
@@ -669,7 +670,6 @@ private:
 int
 main(int argc, char **argv) {
   ros::init(argc, argv, "laser_lines");
-
   LaserLines laser_lines;
 
   ros::spin();
